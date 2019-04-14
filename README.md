@@ -1,2 +1,2 @@
 # MyLanguage
-Repository for maintaining the language being made in the Computer Logic course
+Repository for the production of a programming language unde Computer Logic course.
