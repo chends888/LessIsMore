@@ -41,3 +41,21 @@ while z greater 0 do
     z is z-1
 endloop
 print z
+
+int func Sum(int x, int y) is
+    int a
+    a is x + y
+    Sum is a
+endfunc
+
+int func Subtract(int x, int y) is
+    int a
+    a is x - y
+    Subtract is a
+endfunc
+
+z is Sum(1,1)
+print z
+
+z is Subtract(2,5)
+print z
