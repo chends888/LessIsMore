@@ -1,2 +1,43 @@
-print(4 + 4 - 2);
-print(3);
+int x
+int y
+bool w
+x is 1
+y is 2
+w is true
+int z
+
+z is x + y
+print z
+
+if z greater y then
+    print 1
+else
+    print 0
+endif
+
+if z less y then
+    print 2
+else
+    print 0
+endif
+
+if y equals x+1 then
+    print 3
+endif
+
+if w then
+    print 4
+endif
+
+w is false
+if w then
+    print 5
+else
+    print 0
+endif
+
+while z greater 0 do
+    print z
+    z is z-1
+endloop
+print z
