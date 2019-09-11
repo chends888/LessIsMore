@@ -1,9 +1,12 @@
 int x
 int y
 bool w
+bool q
 x is 1
 y is 2
 w is true
+q is false
+w is w and q
 int z
 
 z is x + y
@@ -25,11 +28,10 @@ if y equals x+1 then
     print 3
 endif
 
-if w then
+if w and q then
     print 4
 endif
 
-w is false
 if w then
     print 5
 else
