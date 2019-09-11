@@ -15,8 +15,8 @@ comparison = expr (comp_op expr) ;
 comp_op = "is greater than" | "is less than" | "is equal to" ;
 expr = and_expr ("or" and_expr) ;
 and_expr = arith_expr ("and" arith_expr) ;
-arith_expr = term (("plus" | "minus") term) ;
-term = factor (("times" | "divide by") factor) ;
+arith_expr = term (("+" | "-") term) ;
+term = factor (("*" | "/") factor) ;
 factor = ("+" | "-" | "not") factor | variable ;
 
 function_def = "function" function_name parameters "is" expr "end_func" ;
