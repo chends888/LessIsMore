@@ -1,0 +1,5 @@
+int x
+bool w
+
+x is 2
+print x
