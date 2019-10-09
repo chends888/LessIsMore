@@ -1,8 +1,8 @@
 variable_dec = variable_type, variable_name ;
 variable_assig = variable_name, "is", variable_data ;
 variable_type = "bool" | "integer" ;
-variable_data = ("-2⁶³" | ... | "2⁶³") | ("true" | "false") | comparison ;
-variable_name = "a-zA-Z" | ... | "a-zA-Z" ;
+variable_data = {("-2⁶³" | ... | "2⁶³")} | ("true" | "false") | comparison ;
+variable_name = {("a-zA-Z")} ;
 
 conditional_if = "if", test, "then", expr, "end_if" ;
 while_loop = "while", test, "is true then", expr, "end_loop" ;
