@@ -7,7 +7,7 @@ from rply import LexerGenerator, ParserGenerator
 lg = LexerGenerator()
 
 # Building tokenization rules
-lg.add('INTEGER', '\d')
+lg.add('INT', '\d+')
 lg.add('PLUS', '[+]')
 lg.add('MINUS', '[-]')
 lg.add('DIV', '[/]')
@@ -19,6 +19,8 @@ lg.add('PRINT', 'print ')
 lg.add('GREATER', 'greater')
 lg.add('LESS', 'less')
 lg.add('EQUALS', 'equals')
+lg.add('OPENPAR', r'\(')
+lg.add('CLOSEPAR', r'\)')
 lg.add('IDENT', '([a-zA-Z])*')
 
 
@@ -32,7 +34,7 @@ lexer = lg.build()
 with open(sys.argv[1], 'r') as file:
     lines = file.read()
 tokens = list(lexer.lex(lines))
-print(tokens)
+print(tokens, '\n\n')
 
 
 
@@ -40,22 +42,25 @@ print(tokens)
 
 pg = ParserGenerator(
     # List of all tokens
-    ['INTEGER', 'PRINT', 'ASSIG',
-    'PLUS', 'MINUS', 'MUL', 'DIV'],
+    ['INT', 'PRINT', 'ASSIG',
+    'PLUS', 'MINUS', 'MUL', 'DIV',
+    'OPENPAR', 'CLOSEPAR'],
     # List of rules
-    precedence=[
+    precedence = [
         ('left', ['PLUS', 'MINUS']),
         ('left', ['MUL', 'DIV'])
     ]
 )
 
-
-@pg.production('expression : INTEGER')
-def expression_number(p):
+# Rules with ascending precedence
+@pg.production('expression : INT')
+def expression_int(p):
     return int(p[0].getstr())
-# @pg.production('expression : OPEN_PARENS expression CLOSE_PARENS')
-# def expression_parens(p):
-#     return p[1]
+
+@pg.production('expression : OPENPAR expression CLOSEPAR')
+def expression_par(p):
+    return p[1]
+
 @pg.production('expression : expression PLUS expression')
 @pg.production('expression : expression MINUS expression')
 @pg.production('expression : expression MUL expression')
@@ -72,8 +77,12 @@ def expression_binop(p):
     elif p[1].gettokentype() == 'DIV':
         return left / right
     else:
-        raise AssertionError('Oops, this should not be possible!')
+        raise AssertionError('Invalid operation')
+
 parser = pg.build()
 
 
-print(parser.parse(lexer.lex('1 + 1 + 1 * 3')))
+print(parser.parse(lexer.lex('(1+2)')))
+
+
+env.variables['z']
