@@ -1,24 +1,25 @@
-variable = variable_type variable_name "is" variable_data ;
-variable_type = "string" | "integer" ;
-variable_data = ("-2⁶³" | ... | "2⁶³") | ("true" | "false") | comparison ;
-variable_name = "a-zA-Z" | ... | "a-zA-Z" ;
+variable_dec = variable_type, variable_name ;
+variable_assig = variable_name, "is", variable_data ;
+variable_type = "bool" | "integer" ;
+variable_data = {("-2⁶³" | ... | "2⁶³")} | ("true" | "false") | comparison ;
+variable_name = {("a-zA-Z")} ;
 
-conditional_if = "if" test "then" expr "end_if" ;
-while_loop = "while" test "is true then" expr "end_loop" ;
+conditional_if = "if", test, "then", expr, "end_if" ;
+while_loop = "while", test, "is true then", expr, "end_loop" ;
 
 test = or_test ;
-or_test = and_test ("or" and_test) ;
-and_test = not_test ("and" not_test) ;
-not_test = "not" not_test | comparison ;
+or_test = and_test, ("or", and_test) ;
+and_test = not_test, ("and", not_test) ;
+not_test = "not", (not_test | comparison) ;
 
-comparison = expr (comp_op expr) ;
+comparison = expr, (comp_op, expr) ;
 comp_op = "is greater than" | "is less than" | "is equal to" ;
-expr = and_expr ("or" and_expr) ;
-and_expr = arith_expr ("and" arith_expr) ;
-arith_expr = term (("plus" | "minus") term) ;
-term = factor (("times" | "divide by") factor) ;
-factor = ("+" | "-" | "not") factor | variable ;
+expr = and_expr, ("or", and_expr) ;
+and_expr = arith_expr, ("and" arith_expr) ;
+arith_expr = term, (("+" | "-"), term) ;
+term = factor, (("*" | "/"), factor) ;
+factor = ("+" | "-" | "not"), (factor | variable) ;
 
-function_def = "function" function_name parameters "is" expr "end_func" ;
+function_def = "function", function_name, parameters, "is", expr, "end_func" ;
 
-annassign = test ["=" test] ;
+print = "print", comparison
