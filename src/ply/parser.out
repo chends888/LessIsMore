@@ -1,0 +1,279 @@
+Created by PLY version 3.11 (http://www.dabeaz.com/ply)
+
+Unused terminals:
+
+    CLOSEPAR
+    EQUALS
+    GREATER
+    LESS
+    OPENPAR
+    PRINT
+
+Grammar
+
+Rule 0     S' -> statement
+Rule 1     statement -> VARDEC IDENT
+Rule 2     statement -> IDENT ASSIG expr
+Rule 3     statement -> expr
+Rule 4     expr -> expr PLUS expr
+Rule 5     expr -> expr MINUS expr
+Rule 6     expr -> expr DIV expr
+Rule 7     expr -> expr MUL expr
+Rule 8     expr -> INT
+
+Terminals, with rules where they appear
+
+ASSIG                : 2
+CLOSEPAR             : 
+DIV                  : 6
+EQUALS               : 
+GREATER              : 
+IDENT                : 1 2
+INT                  : 8
+LESS                 : 
+MINUS                : 5
+MUL                  : 7
+OPENPAR              : 
+PLUS                 : 4
+PRINT                : 
+VARDEC               : 1
+error                : 
+
+Nonterminals, with rules where they appear
+
+expr                 : 2 3 4 4 5 5 6 6 7 7
+statement            : 0
+
+Parsing method: LALR
+
+state 0
+
+    (0) S' -> . statement
+    (1) statement -> . VARDEC IDENT
+    (2) statement -> . IDENT ASSIG expr
+    (3) statement -> . expr
+    (4) expr -> . expr PLUS expr
+    (5) expr -> . expr MINUS expr
+    (6) expr -> . expr DIV expr
+    (7) expr -> . expr MUL expr
+    (8) expr -> . INT
+
+    VARDEC          shift and go to state 2
+    IDENT           shift and go to state 3
+    INT             shift and go to state 5
+
+    statement                      shift and go to state 1
+    expr                           shift and go to state 4
+
+state 1
+
+    (0) S' -> statement .
+
+
+
+state 2
+
+    (1) statement -> VARDEC . IDENT
+
+    IDENT           shift and go to state 6
+
+
+state 3
+
+    (2) statement -> IDENT . ASSIG expr
+
+    ASSIG           shift and go to state 7
+
+
+state 4
+
+    (3) statement -> expr .
+    (4) expr -> expr . PLUS expr
+    (5) expr -> expr . MINUS expr
+    (6) expr -> expr . DIV expr
+    (7) expr -> expr . MUL expr
+
+    $end            reduce using rule 3 (statement -> expr .)
+    PLUS            shift and go to state 8
+    MINUS           shift and go to state 9
+    DIV             shift and go to state 10
+    MUL             shift and go to state 11
+
+
+state 5
+
+    (8) expr -> INT .
+
+    PLUS            reduce using rule 8 (expr -> INT .)
+    MINUS           reduce using rule 8 (expr -> INT .)
+    DIV             reduce using rule 8 (expr -> INT .)
+    MUL             reduce using rule 8 (expr -> INT .)
+    $end            reduce using rule 8 (expr -> INT .)
+
+
+state 6
+
+    (1) statement -> VARDEC IDENT .
+
+    $end            reduce using rule 1 (statement -> VARDEC IDENT .)
+
+
+state 7
+
+    (2) statement -> IDENT ASSIG . expr
+    (4) expr -> . expr PLUS expr
+    (5) expr -> . expr MINUS expr
+    (6) expr -> . expr DIV expr
+    (7) expr -> . expr MUL expr
+    (8) expr -> . INT
+
+    INT             shift and go to state 5
+
+    expr                           shift and go to state 12
+
+state 8
+
+    (4) expr -> expr PLUS . expr
+    (4) expr -> . expr PLUS expr
+    (5) expr -> . expr MINUS expr
+    (6) expr -> . expr DIV expr
+    (7) expr -> . expr MUL expr
+    (8) expr -> . INT
+
+    INT             shift and go to state 5
+
+    expr                           shift and go to state 13
+
+state 9
+
+    (5) expr -> expr MINUS . expr
+    (4) expr -> . expr PLUS expr
+    (5) expr -> . expr MINUS expr
+    (6) expr -> . expr DIV expr
+    (7) expr -> . expr MUL expr
+    (8) expr -> . INT
+
+    INT             shift and go to state 5
+
+    expr                           shift and go to state 14
+
+state 10
+
+    (6) expr -> expr DIV . expr
+    (4) expr -> . expr PLUS expr
+    (5) expr -> . expr MINUS expr
+    (6) expr -> . expr DIV expr
+    (7) expr -> . expr MUL expr
+    (8) expr -> . INT
+
+    INT             shift and go to state 5
+
+    expr                           shift and go to state 15
+
+state 11
+
+    (7) expr -> expr MUL . expr
+    (4) expr -> . expr PLUS expr
+    (5) expr -> . expr MINUS expr
+    (6) expr -> . expr DIV expr
+    (7) expr -> . expr MUL expr
+    (8) expr -> . INT
+
+    INT             shift and go to state 5
+
+    expr                           shift and go to state 16
+
+state 12
+
+    (2) statement -> IDENT ASSIG expr .
+    (4) expr -> expr . PLUS expr
+    (5) expr -> expr . MINUS expr
+    (6) expr -> expr . DIV expr
+    (7) expr -> expr . MUL expr
+
+    $end            reduce using rule 2 (statement -> IDENT ASSIG expr .)
+    PLUS            shift and go to state 8
+    MINUS           shift and go to state 9
+    DIV             shift and go to state 10
+    MUL             shift and go to state 11
+
+
+state 13
+
+    (4) expr -> expr PLUS expr .
+    (4) expr -> expr . PLUS expr
+    (5) expr -> expr . MINUS expr
+    (6) expr -> expr . DIV expr
+    (7) expr -> expr . MUL expr
+
+    PLUS            reduce using rule 4 (expr -> expr PLUS expr .)
+    MINUS           reduce using rule 4 (expr -> expr PLUS expr .)
+    $end            reduce using rule 4 (expr -> expr PLUS expr .)
+    DIV             shift and go to state 10
+    MUL             shift and go to state 11
+
+  ! DIV             [ reduce using rule 4 (expr -> expr PLUS expr .) ]
+  ! MUL             [ reduce using rule 4 (expr -> expr PLUS expr .) ]
+  ! PLUS            [ shift and go to state 8 ]
+  ! MINUS           [ shift and go to state 9 ]
+
+
+state 14
+
+    (5) expr -> expr MINUS expr .
+    (4) expr -> expr . PLUS expr
+    (5) expr -> expr . MINUS expr
+    (6) expr -> expr . DIV expr
+    (7) expr -> expr . MUL expr
+
+    PLUS            reduce using rule 5 (expr -> expr MINUS expr .)
+    MINUS           reduce using rule 5 (expr -> expr MINUS expr .)
+    $end            reduce using rule 5 (expr -> expr MINUS expr .)
+    DIV             shift and go to state 10
+    MUL             shift and go to state 11
+
+  ! DIV             [ reduce using rule 5 (expr -> expr MINUS expr .) ]
+  ! MUL             [ reduce using rule 5 (expr -> expr MINUS expr .) ]
+  ! PLUS            [ shift and go to state 8 ]
+  ! MINUS           [ shift and go to state 9 ]
+
+
+state 15
+
+    (6) expr -> expr DIV expr .
+    (4) expr -> expr . PLUS expr
+    (5) expr -> expr . MINUS expr
+    (6) expr -> expr . DIV expr
+    (7) expr -> expr . MUL expr
+
+    PLUS            reduce using rule 6 (expr -> expr DIV expr .)
+    MINUS           reduce using rule 6 (expr -> expr DIV expr .)
+    DIV             reduce using rule 6 (expr -> expr DIV expr .)
+    MUL             reduce using rule 6 (expr -> expr DIV expr .)
+    $end            reduce using rule 6 (expr -> expr DIV expr .)
+
+  ! PLUS            [ shift and go to state 8 ]
+  ! MINUS           [ shift and go to state 9 ]
+  ! DIV             [ shift and go to state 10 ]
+  ! MUL             [ shift and go to state 11 ]
+
+
+state 16
+
+    (7) expr -> expr MUL expr .
+    (4) expr -> expr . PLUS expr
+    (5) expr -> expr . MINUS expr
+    (6) expr -> expr . DIV expr
+    (7) expr -> expr . MUL expr
+
+    PLUS            reduce using rule 7 (expr -> expr MUL expr .)
+    MINUS           reduce using rule 7 (expr -> expr MUL expr .)
+    DIV             reduce using rule 7 (expr -> expr MUL expr .)
+    MUL             reduce using rule 7 (expr -> expr MUL expr .)
+    $end            reduce using rule 7 (expr -> expr MUL expr .)
+
+  ! PLUS            [ shift and go to state 8 ]
+  ! MINUS           [ shift and go to state 9 ]
+  ! DIV             [ shift and go to state 10 ]
+  ! MUL             [ shift and go to state 11 ]
+
