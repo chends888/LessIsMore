@@ -1,279 +1,853 @@
 Created by PLY version 3.11 (http://www.dabeaz.com/ply)
 
-Unused terminals:
-
-    CLOSEPAR
-    EQUALS
-    GREATER
-    LESS
-    OPENPAR
-    PRINT
-
 Grammar
 
-Rule 0     S' -> statement
-Rule 1     statement -> VARDEC IDENT
-Rule 2     statement -> IDENT ASSIG expr
-Rule 3     statement -> expr
-Rule 4     expr -> expr PLUS expr
-Rule 5     expr -> expr MINUS expr
-Rule 6     expr -> expr DIV expr
-Rule 7     expr -> expr MUL expr
-Rule 8     expr -> INT
+Rule 0     S' -> stmts
+Rule 1     stmts -> stmt
+Rule 2     stmts -> stmts stmt
+Rule 3     stmt -> VARDEC IDENT
+Rule 4     stmt -> IDENT ASSIG relexpr
+Rule 5     stmt -> PRINT relexpr
+Rule 6     stmt -> VARDEC FUNC IDENT OPENPAR CLOSEPAR ASSIG stmts ENDFUNC
+Rule 7     stmt -> WHILE relexpr DO stmts ENDLOOP
+Rule 8     relexpr -> expr
+Rule 9     relexpr -> expr GREATER expr
+Rule 10    relexpr -> expr LESS expr
+Rule 11    relexpr -> expr EQUALS expr
+Rule 12    expr -> term
+Rule 13    expr -> term PLUS term
+Rule 14    expr -> term MINUS term
+Rule 15    expr -> term OR term
+Rule 16    term -> factor
+Rule 17    term -> factor MUL factor
+Rule 18    term -> factor DIV factor
+Rule 19    term -> factor AND factor
+Rule 20    factor -> INT
+Rule 21    factor -> IDENT
+Rule 22    factor -> BOOLVAL
 
 Terminals, with rules where they appear
 
-ASSIG                : 2
-CLOSEPAR             : 
-DIV                  : 6
-EQUALS               : 
-GREATER              : 
-IDENT                : 1 2
-INT                  : 8
-LESS                 : 
-MINUS                : 5
-MUL                  : 7
-OPENPAR              : 
-PLUS                 : 4
-PRINT                : 
-VARDEC               : 1
+AND                  : 19
+ASSIG                : 4 6
+BOOLVAL              : 22
+CLOSEPAR             : 6
+DIV                  : 18
+DO                   : 7
+ENDFUNC              : 6
+ENDLOOP              : 7
+EQUALS               : 11
+FUNC                 : 6
+GREATER              : 9
+IDENT                : 3 4 6 21
+INT                  : 20
+LESS                 : 10
+MINUS                : 14
+MUL                  : 17
+OPENPAR              : 6
+OR                   : 15
+PLUS                 : 13
+PRINT                : 5
+VARDEC               : 3 6
+WHILE                : 7
 error                : 
 
 Nonterminals, with rules where they appear
 
-expr                 : 2 3 4 4 5 5 6 6 7 7
-statement            : 0
+expr                 : 8 9 9 10 10 11 11
+factor               : 16 17 17 18 18 19 19
+relexpr              : 4 5 7
+stmt                 : 1 2
+stmts                : 2 6 7 0
+term                 : 12 13 13 14 14 15 15
 
 Parsing method: LALR
 
 state 0
 
-    (0) S' -> . statement
-    (1) statement -> . VARDEC IDENT
-    (2) statement -> . IDENT ASSIG expr
-    (3) statement -> . expr
-    (4) expr -> . expr PLUS expr
-    (5) expr -> . expr MINUS expr
-    (6) expr -> . expr DIV expr
-    (7) expr -> . expr MUL expr
-    (8) expr -> . INT
+    (0) S' -> . stmts
+    (1) stmts -> . stmt
+    (2) stmts -> . stmts stmt
+    (3) stmt -> . VARDEC IDENT
+    (4) stmt -> . IDENT ASSIG relexpr
+    (5) stmt -> . PRINT relexpr
+    (6) stmt -> . VARDEC FUNC IDENT OPENPAR CLOSEPAR ASSIG stmts ENDFUNC
+    (7) stmt -> . WHILE relexpr DO stmts ENDLOOP
 
-    VARDEC          shift and go to state 2
-    IDENT           shift and go to state 3
-    INT             shift and go to state 5
+    VARDEC          shift and go to state 3
+    IDENT           shift and go to state 4
+    PRINT           shift and go to state 5
+    WHILE           shift and go to state 6
 
-    statement                      shift and go to state 1
-    expr                           shift and go to state 4
+    stmts                          shift and go to state 1
+    stmt                           shift and go to state 2
 
 state 1
 
-    (0) S' -> statement .
+    (0) S' -> stmts .
+    (2) stmts -> stmts . stmt
+    (3) stmt -> . VARDEC IDENT
+    (4) stmt -> . IDENT ASSIG relexpr
+    (5) stmt -> . PRINT relexpr
+    (6) stmt -> . VARDEC FUNC IDENT OPENPAR CLOSEPAR ASSIG stmts ENDFUNC
+    (7) stmt -> . WHILE relexpr DO stmts ENDLOOP
 
+    VARDEC          shift and go to state 3
+    IDENT           shift and go to state 4
+    PRINT           shift and go to state 5
+    WHILE           shift and go to state 6
 
+    stmt                           shift and go to state 7
 
 state 2
 
-    (1) statement -> VARDEC . IDENT
+    (1) stmts -> stmt .
 
-    IDENT           shift and go to state 6
+    VARDEC          reduce using rule 1 (stmts -> stmt .)
+    IDENT           reduce using rule 1 (stmts -> stmt .)
+    PRINT           reduce using rule 1 (stmts -> stmt .)
+    WHILE           reduce using rule 1 (stmts -> stmt .)
+    $end            reduce using rule 1 (stmts -> stmt .)
+    ENDLOOP         reduce using rule 1 (stmts -> stmt .)
+    ENDFUNC         reduce using rule 1 (stmts -> stmt .)
 
 
 state 3
 
-    (2) statement -> IDENT . ASSIG expr
+    (3) stmt -> VARDEC . IDENT
+    (6) stmt -> VARDEC . FUNC IDENT OPENPAR CLOSEPAR ASSIG stmts ENDFUNC
 
-    ASSIG           shift and go to state 7
+    IDENT           shift and go to state 8
+    FUNC            shift and go to state 9
 
 
 state 4
 
-    (3) statement -> expr .
-    (4) expr -> expr . PLUS expr
-    (5) expr -> expr . MINUS expr
-    (6) expr -> expr . DIV expr
-    (7) expr -> expr . MUL expr
+    (4) stmt -> IDENT . ASSIG relexpr
 
-    $end            reduce using rule 3 (statement -> expr .)
-    PLUS            shift and go to state 8
-    MINUS           shift and go to state 9
-    DIV             shift and go to state 10
-    MUL             shift and go to state 11
+    ASSIG           shift and go to state 10
 
 
 state 5
 
-    (8) expr -> INT .
+    (5) stmt -> PRINT . relexpr
+    (8) relexpr -> . expr
+    (9) relexpr -> . expr GREATER expr
+    (10) relexpr -> . expr LESS expr
+    (11) relexpr -> . expr EQUALS expr
+    (12) expr -> . term
+    (13) expr -> . term PLUS term
+    (14) expr -> . term MINUS term
+    (15) expr -> . term OR term
+    (16) term -> . factor
+    (17) term -> . factor MUL factor
+    (18) term -> . factor DIV factor
+    (19) term -> . factor AND factor
+    (20) factor -> . INT
+    (21) factor -> . IDENT
+    (22) factor -> . BOOLVAL
 
-    PLUS            reduce using rule 8 (expr -> INT .)
-    MINUS           reduce using rule 8 (expr -> INT .)
-    DIV             reduce using rule 8 (expr -> INT .)
-    MUL             reduce using rule 8 (expr -> INT .)
-    $end            reduce using rule 8 (expr -> INT .)
+    INT             shift and go to state 15
+    IDENT           shift and go to state 16
+    BOOLVAL         shift and go to state 17
 
+    relexpr                        shift and go to state 11
+    expr                           shift and go to state 12
+    term                           shift and go to state 13
+    factor                         shift and go to state 14
 
 state 6
 
-    (1) statement -> VARDEC IDENT .
+    (7) stmt -> WHILE . relexpr DO stmts ENDLOOP
+    (8) relexpr -> . expr
+    (9) relexpr -> . expr GREATER expr
+    (10) relexpr -> . expr LESS expr
+    (11) relexpr -> . expr EQUALS expr
+    (12) expr -> . term
+    (13) expr -> . term PLUS term
+    (14) expr -> . term MINUS term
+    (15) expr -> . term OR term
+    (16) term -> . factor
+    (17) term -> . factor MUL factor
+    (18) term -> . factor DIV factor
+    (19) term -> . factor AND factor
+    (20) factor -> . INT
+    (21) factor -> . IDENT
+    (22) factor -> . BOOLVAL
 
-    $end            reduce using rule 1 (statement -> VARDEC IDENT .)
+    INT             shift and go to state 15
+    IDENT           shift and go to state 16
+    BOOLVAL         shift and go to state 17
 
+    relexpr                        shift and go to state 18
+    expr                           shift and go to state 12
+    term                           shift and go to state 13
+    factor                         shift and go to state 14
 
 state 7
 
-    (2) statement -> IDENT ASSIG . expr
-    (4) expr -> . expr PLUS expr
-    (5) expr -> . expr MINUS expr
-    (6) expr -> . expr DIV expr
-    (7) expr -> . expr MUL expr
-    (8) expr -> . INT
+    (2) stmts -> stmts stmt .
 
-    INT             shift and go to state 5
+    VARDEC          reduce using rule 2 (stmts -> stmts stmt .)
+    IDENT           reduce using rule 2 (stmts -> stmts stmt .)
+    PRINT           reduce using rule 2 (stmts -> stmts stmt .)
+    WHILE           reduce using rule 2 (stmts -> stmts stmt .)
+    $end            reduce using rule 2 (stmts -> stmts stmt .)
+    ENDLOOP         reduce using rule 2 (stmts -> stmts stmt .)
+    ENDFUNC         reduce using rule 2 (stmts -> stmts stmt .)
 
-    expr                           shift and go to state 12
 
 state 8
 
-    (4) expr -> expr PLUS . expr
-    (4) expr -> . expr PLUS expr
-    (5) expr -> . expr MINUS expr
-    (6) expr -> . expr DIV expr
-    (7) expr -> . expr MUL expr
-    (8) expr -> . INT
+    (3) stmt -> VARDEC IDENT .
 
-    INT             shift and go to state 5
+    VARDEC          reduce using rule 3 (stmt -> VARDEC IDENT .)
+    IDENT           reduce using rule 3 (stmt -> VARDEC IDENT .)
+    PRINT           reduce using rule 3 (stmt -> VARDEC IDENT .)
+    WHILE           reduce using rule 3 (stmt -> VARDEC IDENT .)
+    $end            reduce using rule 3 (stmt -> VARDEC IDENT .)
+    ENDLOOP         reduce using rule 3 (stmt -> VARDEC IDENT .)
+    ENDFUNC         reduce using rule 3 (stmt -> VARDEC IDENT .)
 
-    expr                           shift and go to state 13
 
 state 9
 
-    (5) expr -> expr MINUS . expr
-    (4) expr -> . expr PLUS expr
-    (5) expr -> . expr MINUS expr
-    (6) expr -> . expr DIV expr
-    (7) expr -> . expr MUL expr
-    (8) expr -> . INT
+    (6) stmt -> VARDEC FUNC . IDENT OPENPAR CLOSEPAR ASSIG stmts ENDFUNC
 
-    INT             shift and go to state 5
+    IDENT           shift and go to state 19
 
-    expr                           shift and go to state 14
 
 state 10
 
-    (6) expr -> expr DIV . expr
-    (4) expr -> . expr PLUS expr
-    (5) expr -> . expr MINUS expr
-    (6) expr -> . expr DIV expr
-    (7) expr -> . expr MUL expr
-    (8) expr -> . INT
+    (4) stmt -> IDENT ASSIG . relexpr
+    (8) relexpr -> . expr
+    (9) relexpr -> . expr GREATER expr
+    (10) relexpr -> . expr LESS expr
+    (11) relexpr -> . expr EQUALS expr
+    (12) expr -> . term
+    (13) expr -> . term PLUS term
+    (14) expr -> . term MINUS term
+    (15) expr -> . term OR term
+    (16) term -> . factor
+    (17) term -> . factor MUL factor
+    (18) term -> . factor DIV factor
+    (19) term -> . factor AND factor
+    (20) factor -> . INT
+    (21) factor -> . IDENT
+    (22) factor -> . BOOLVAL
 
-    INT             shift and go to state 5
+    INT             shift and go to state 15
+    IDENT           shift and go to state 16
+    BOOLVAL         shift and go to state 17
 
-    expr                           shift and go to state 15
+    relexpr                        shift and go to state 20
+    expr                           shift and go to state 12
+    term                           shift and go to state 13
+    factor                         shift and go to state 14
 
 state 11
 
-    (7) expr -> expr MUL . expr
-    (4) expr -> . expr PLUS expr
-    (5) expr -> . expr MINUS expr
-    (6) expr -> . expr DIV expr
-    (7) expr -> . expr MUL expr
-    (8) expr -> . INT
+    (5) stmt -> PRINT relexpr .
 
-    INT             shift and go to state 5
+    VARDEC          reduce using rule 5 (stmt -> PRINT relexpr .)
+    IDENT           reduce using rule 5 (stmt -> PRINT relexpr .)
+    PRINT           reduce using rule 5 (stmt -> PRINT relexpr .)
+    WHILE           reduce using rule 5 (stmt -> PRINT relexpr .)
+    $end            reduce using rule 5 (stmt -> PRINT relexpr .)
+    ENDLOOP         reduce using rule 5 (stmt -> PRINT relexpr .)
+    ENDFUNC         reduce using rule 5 (stmt -> PRINT relexpr .)
 
-    expr                           shift and go to state 16
 
 state 12
 
-    (2) statement -> IDENT ASSIG expr .
-    (4) expr -> expr . PLUS expr
-    (5) expr -> expr . MINUS expr
-    (6) expr -> expr . DIV expr
-    (7) expr -> expr . MUL expr
+    (8) relexpr -> expr .
+    (9) relexpr -> expr . GREATER expr
+    (10) relexpr -> expr . LESS expr
+    (11) relexpr -> expr . EQUALS expr
 
-    $end            reduce using rule 2 (statement -> IDENT ASSIG expr .)
-    PLUS            shift and go to state 8
-    MINUS           shift and go to state 9
-    DIV             shift and go to state 10
-    MUL             shift and go to state 11
+    VARDEC          reduce using rule 8 (relexpr -> expr .)
+    IDENT           reduce using rule 8 (relexpr -> expr .)
+    PRINT           reduce using rule 8 (relexpr -> expr .)
+    WHILE           reduce using rule 8 (relexpr -> expr .)
+    $end            reduce using rule 8 (relexpr -> expr .)
+    ENDLOOP         reduce using rule 8 (relexpr -> expr .)
+    ENDFUNC         reduce using rule 8 (relexpr -> expr .)
+    DO              reduce using rule 8 (relexpr -> expr .)
+    GREATER         shift and go to state 21
+    LESS            shift and go to state 22
+    EQUALS          shift and go to state 23
 
 
 state 13
 
-    (4) expr -> expr PLUS expr .
-    (4) expr -> expr . PLUS expr
-    (5) expr -> expr . MINUS expr
-    (6) expr -> expr . DIV expr
-    (7) expr -> expr . MUL expr
+    (12) expr -> term .
+    (13) expr -> term . PLUS term
+    (14) expr -> term . MINUS term
+    (15) expr -> term . OR term
 
-    PLUS            reduce using rule 4 (expr -> expr PLUS expr .)
-    MINUS           reduce using rule 4 (expr -> expr PLUS expr .)
-    $end            reduce using rule 4 (expr -> expr PLUS expr .)
-    DIV             shift and go to state 10
-    MUL             shift and go to state 11
-
-  ! DIV             [ reduce using rule 4 (expr -> expr PLUS expr .) ]
-  ! MUL             [ reduce using rule 4 (expr -> expr PLUS expr .) ]
-  ! PLUS            [ shift and go to state 8 ]
-  ! MINUS           [ shift and go to state 9 ]
+    GREATER         reduce using rule 12 (expr -> term .)
+    LESS            reduce using rule 12 (expr -> term .)
+    EQUALS          reduce using rule 12 (expr -> term .)
+    VARDEC          reduce using rule 12 (expr -> term .)
+    IDENT           reduce using rule 12 (expr -> term .)
+    PRINT           reduce using rule 12 (expr -> term .)
+    WHILE           reduce using rule 12 (expr -> term .)
+    $end            reduce using rule 12 (expr -> term .)
+    ENDLOOP         reduce using rule 12 (expr -> term .)
+    ENDFUNC         reduce using rule 12 (expr -> term .)
+    DO              reduce using rule 12 (expr -> term .)
+    PLUS            shift and go to state 24
+    MINUS           shift and go to state 25
+    OR              shift and go to state 26
 
 
 state 14
 
-    (5) expr -> expr MINUS expr .
-    (4) expr -> expr . PLUS expr
-    (5) expr -> expr . MINUS expr
-    (6) expr -> expr . DIV expr
-    (7) expr -> expr . MUL expr
+    (16) term -> factor .
+    (17) term -> factor . MUL factor
+    (18) term -> factor . DIV factor
+    (19) term -> factor . AND factor
 
-    PLUS            reduce using rule 5 (expr -> expr MINUS expr .)
-    MINUS           reduce using rule 5 (expr -> expr MINUS expr .)
-    $end            reduce using rule 5 (expr -> expr MINUS expr .)
-    DIV             shift and go to state 10
-    MUL             shift and go to state 11
-
-  ! DIV             [ reduce using rule 5 (expr -> expr MINUS expr .) ]
-  ! MUL             [ reduce using rule 5 (expr -> expr MINUS expr .) ]
-  ! PLUS            [ shift and go to state 8 ]
-  ! MINUS           [ shift and go to state 9 ]
+    PLUS            reduce using rule 16 (term -> factor .)
+    MINUS           reduce using rule 16 (term -> factor .)
+    OR              reduce using rule 16 (term -> factor .)
+    GREATER         reduce using rule 16 (term -> factor .)
+    LESS            reduce using rule 16 (term -> factor .)
+    EQUALS          reduce using rule 16 (term -> factor .)
+    VARDEC          reduce using rule 16 (term -> factor .)
+    IDENT           reduce using rule 16 (term -> factor .)
+    PRINT           reduce using rule 16 (term -> factor .)
+    WHILE           reduce using rule 16 (term -> factor .)
+    $end            reduce using rule 16 (term -> factor .)
+    ENDLOOP         reduce using rule 16 (term -> factor .)
+    ENDFUNC         reduce using rule 16 (term -> factor .)
+    DO              reduce using rule 16 (term -> factor .)
+    MUL             shift and go to state 27
+    DIV             shift and go to state 28
+    AND             shift and go to state 29
 
 
 state 15
 
-    (6) expr -> expr DIV expr .
-    (4) expr -> expr . PLUS expr
-    (5) expr -> expr . MINUS expr
-    (6) expr -> expr . DIV expr
-    (7) expr -> expr . MUL expr
+    (20) factor -> INT .
 
-    PLUS            reduce using rule 6 (expr -> expr DIV expr .)
-    MINUS           reduce using rule 6 (expr -> expr DIV expr .)
-    DIV             reduce using rule 6 (expr -> expr DIV expr .)
-    MUL             reduce using rule 6 (expr -> expr DIV expr .)
-    $end            reduce using rule 6 (expr -> expr DIV expr .)
-
-  ! PLUS            [ shift and go to state 8 ]
-  ! MINUS           [ shift and go to state 9 ]
-  ! DIV             [ shift and go to state 10 ]
-  ! MUL             [ shift and go to state 11 ]
+    MUL             reduce using rule 20 (factor -> INT .)
+    DIV             reduce using rule 20 (factor -> INT .)
+    AND             reduce using rule 20 (factor -> INT .)
+    PLUS            reduce using rule 20 (factor -> INT .)
+    MINUS           reduce using rule 20 (factor -> INT .)
+    OR              reduce using rule 20 (factor -> INT .)
+    GREATER         reduce using rule 20 (factor -> INT .)
+    LESS            reduce using rule 20 (factor -> INT .)
+    EQUALS          reduce using rule 20 (factor -> INT .)
+    VARDEC          reduce using rule 20 (factor -> INT .)
+    IDENT           reduce using rule 20 (factor -> INT .)
+    PRINT           reduce using rule 20 (factor -> INT .)
+    WHILE           reduce using rule 20 (factor -> INT .)
+    $end            reduce using rule 20 (factor -> INT .)
+    ENDLOOP         reduce using rule 20 (factor -> INT .)
+    ENDFUNC         reduce using rule 20 (factor -> INT .)
+    DO              reduce using rule 20 (factor -> INT .)
 
 
 state 16
 
-    (7) expr -> expr MUL expr .
-    (4) expr -> expr . PLUS expr
-    (5) expr -> expr . MINUS expr
-    (6) expr -> expr . DIV expr
-    (7) expr -> expr . MUL expr
+    (21) factor -> IDENT .
 
-    PLUS            reduce using rule 7 (expr -> expr MUL expr .)
-    MINUS           reduce using rule 7 (expr -> expr MUL expr .)
-    DIV             reduce using rule 7 (expr -> expr MUL expr .)
-    MUL             reduce using rule 7 (expr -> expr MUL expr .)
-    $end            reduce using rule 7 (expr -> expr MUL expr .)
+    MUL             reduce using rule 21 (factor -> IDENT .)
+    DIV             reduce using rule 21 (factor -> IDENT .)
+    AND             reduce using rule 21 (factor -> IDENT .)
+    PLUS            reduce using rule 21 (factor -> IDENT .)
+    MINUS           reduce using rule 21 (factor -> IDENT .)
+    OR              reduce using rule 21 (factor -> IDENT .)
+    GREATER         reduce using rule 21 (factor -> IDENT .)
+    LESS            reduce using rule 21 (factor -> IDENT .)
+    EQUALS          reduce using rule 21 (factor -> IDENT .)
+    VARDEC          reduce using rule 21 (factor -> IDENT .)
+    IDENT           reduce using rule 21 (factor -> IDENT .)
+    PRINT           reduce using rule 21 (factor -> IDENT .)
+    WHILE           reduce using rule 21 (factor -> IDENT .)
+    $end            reduce using rule 21 (factor -> IDENT .)
+    ENDLOOP         reduce using rule 21 (factor -> IDENT .)
+    ENDFUNC         reduce using rule 21 (factor -> IDENT .)
+    DO              reduce using rule 21 (factor -> IDENT .)
 
-  ! PLUS            [ shift and go to state 8 ]
-  ! MINUS           [ shift and go to state 9 ]
-  ! DIV             [ shift and go to state 10 ]
-  ! MUL             [ shift and go to state 11 ]
+
+state 17
+
+    (22) factor -> BOOLVAL .
+
+    MUL             reduce using rule 22 (factor -> BOOLVAL .)
+    DIV             reduce using rule 22 (factor -> BOOLVAL .)
+    AND             reduce using rule 22 (factor -> BOOLVAL .)
+    PLUS            reduce using rule 22 (factor -> BOOLVAL .)
+    MINUS           reduce using rule 22 (factor -> BOOLVAL .)
+    OR              reduce using rule 22 (factor -> BOOLVAL .)
+    GREATER         reduce using rule 22 (factor -> BOOLVAL .)
+    LESS            reduce using rule 22 (factor -> BOOLVAL .)
+    EQUALS          reduce using rule 22 (factor -> BOOLVAL .)
+    VARDEC          reduce using rule 22 (factor -> BOOLVAL .)
+    IDENT           reduce using rule 22 (factor -> BOOLVAL .)
+    PRINT           reduce using rule 22 (factor -> BOOLVAL .)
+    WHILE           reduce using rule 22 (factor -> BOOLVAL .)
+    $end            reduce using rule 22 (factor -> BOOLVAL .)
+    ENDLOOP         reduce using rule 22 (factor -> BOOLVAL .)
+    ENDFUNC         reduce using rule 22 (factor -> BOOLVAL .)
+    DO              reduce using rule 22 (factor -> BOOLVAL .)
+
+
+state 18
+
+    (7) stmt -> WHILE relexpr . DO stmts ENDLOOP
+
+    DO              shift and go to state 30
+
+
+state 19
+
+    (6) stmt -> VARDEC FUNC IDENT . OPENPAR CLOSEPAR ASSIG stmts ENDFUNC
+
+    OPENPAR         shift and go to state 31
+
+
+state 20
+
+    (4) stmt -> IDENT ASSIG relexpr .
+
+    VARDEC          reduce using rule 4 (stmt -> IDENT ASSIG relexpr .)
+    IDENT           reduce using rule 4 (stmt -> IDENT ASSIG relexpr .)
+    PRINT           reduce using rule 4 (stmt -> IDENT ASSIG relexpr .)
+    WHILE           reduce using rule 4 (stmt -> IDENT ASSIG relexpr .)
+    $end            reduce using rule 4 (stmt -> IDENT ASSIG relexpr .)
+    ENDLOOP         reduce using rule 4 (stmt -> IDENT ASSIG relexpr .)
+    ENDFUNC         reduce using rule 4 (stmt -> IDENT ASSIG relexpr .)
+
+
+state 21
+
+    (9) relexpr -> expr GREATER . expr
+    (12) expr -> . term
+    (13) expr -> . term PLUS term
+    (14) expr -> . term MINUS term
+    (15) expr -> . term OR term
+    (16) term -> . factor
+    (17) term -> . factor MUL factor
+    (18) term -> . factor DIV factor
+    (19) term -> . factor AND factor
+    (20) factor -> . INT
+    (21) factor -> . IDENT
+    (22) factor -> . BOOLVAL
+
+    INT             shift and go to state 15
+    IDENT           shift and go to state 16
+    BOOLVAL         shift and go to state 17
+
+    expr                           shift and go to state 32
+    term                           shift and go to state 13
+    factor                         shift and go to state 14
+
+state 22
+
+    (10) relexpr -> expr LESS . expr
+    (12) expr -> . term
+    (13) expr -> . term PLUS term
+    (14) expr -> . term MINUS term
+    (15) expr -> . term OR term
+    (16) term -> . factor
+    (17) term -> . factor MUL factor
+    (18) term -> . factor DIV factor
+    (19) term -> . factor AND factor
+    (20) factor -> . INT
+    (21) factor -> . IDENT
+    (22) factor -> . BOOLVAL
+
+    INT             shift and go to state 15
+    IDENT           shift and go to state 16
+    BOOLVAL         shift and go to state 17
+
+    expr                           shift and go to state 33
+    term                           shift and go to state 13
+    factor                         shift and go to state 14
+
+state 23
+
+    (11) relexpr -> expr EQUALS . expr
+    (12) expr -> . term
+    (13) expr -> . term PLUS term
+    (14) expr -> . term MINUS term
+    (15) expr -> . term OR term
+    (16) term -> . factor
+    (17) term -> . factor MUL factor
+    (18) term -> . factor DIV factor
+    (19) term -> . factor AND factor
+    (20) factor -> . INT
+    (21) factor -> . IDENT
+    (22) factor -> . BOOLVAL
+
+    INT             shift and go to state 15
+    IDENT           shift and go to state 16
+    BOOLVAL         shift and go to state 17
+
+    expr                           shift and go to state 34
+    term                           shift and go to state 13
+    factor                         shift and go to state 14
+
+state 24
+
+    (13) expr -> term PLUS . term
+    (16) term -> . factor
+    (17) term -> . factor MUL factor
+    (18) term -> . factor DIV factor
+    (19) term -> . factor AND factor
+    (20) factor -> . INT
+    (21) factor -> . IDENT
+    (22) factor -> . BOOLVAL
+
+    INT             shift and go to state 15
+    IDENT           shift and go to state 16
+    BOOLVAL         shift and go to state 17
+
+    term                           shift and go to state 35
+    factor                         shift and go to state 14
+
+state 25
+
+    (14) expr -> term MINUS . term
+    (16) term -> . factor
+    (17) term -> . factor MUL factor
+    (18) term -> . factor DIV factor
+    (19) term -> . factor AND factor
+    (20) factor -> . INT
+    (21) factor -> . IDENT
+    (22) factor -> . BOOLVAL
+
+    INT             shift and go to state 15
+    IDENT           shift and go to state 16
+    BOOLVAL         shift and go to state 17
+
+    term                           shift and go to state 36
+    factor                         shift and go to state 14
+
+state 26
+
+    (15) expr -> term OR . term
+    (16) term -> . factor
+    (17) term -> . factor MUL factor
+    (18) term -> . factor DIV factor
+    (19) term -> . factor AND factor
+    (20) factor -> . INT
+    (21) factor -> . IDENT
+    (22) factor -> . BOOLVAL
+
+    INT             shift and go to state 15
+    IDENT           shift and go to state 16
+    BOOLVAL         shift and go to state 17
+
+    term                           shift and go to state 37
+    factor                         shift and go to state 14
+
+state 27
+
+    (17) term -> factor MUL . factor
+    (20) factor -> . INT
+    (21) factor -> . IDENT
+    (22) factor -> . BOOLVAL
+
+    INT             shift and go to state 15
+    IDENT           shift and go to state 16
+    BOOLVAL         shift and go to state 17
+
+    factor                         shift and go to state 38
+
+state 28
+
+    (18) term -> factor DIV . factor
+    (20) factor -> . INT
+    (21) factor -> . IDENT
+    (22) factor -> . BOOLVAL
+
+    INT             shift and go to state 15
+    IDENT           shift and go to state 16
+    BOOLVAL         shift and go to state 17
+
+    factor                         shift and go to state 39
+
+state 29
+
+    (19) term -> factor AND . factor
+    (20) factor -> . INT
+    (21) factor -> . IDENT
+    (22) factor -> . BOOLVAL
+
+    INT             shift and go to state 15
+    IDENT           shift and go to state 16
+    BOOLVAL         shift and go to state 17
+
+    factor                         shift and go to state 40
+
+state 30
+
+    (7) stmt -> WHILE relexpr DO . stmts ENDLOOP
+    (1) stmts -> . stmt
+    (2) stmts -> . stmts stmt
+    (3) stmt -> . VARDEC IDENT
+    (4) stmt -> . IDENT ASSIG relexpr
+    (5) stmt -> . PRINT relexpr
+    (6) stmt -> . VARDEC FUNC IDENT OPENPAR CLOSEPAR ASSIG stmts ENDFUNC
+    (7) stmt -> . WHILE relexpr DO stmts ENDLOOP
+
+    VARDEC          shift and go to state 3
+    IDENT           shift and go to state 4
+    PRINT           shift and go to state 5
+    WHILE           shift and go to state 6
+
+    stmts                          shift and go to state 41
+    stmt                           shift and go to state 2
+
+state 31
+
+    (6) stmt -> VARDEC FUNC IDENT OPENPAR . CLOSEPAR ASSIG stmts ENDFUNC
+
+    CLOSEPAR        shift and go to state 42
+
+
+state 32
+
+    (9) relexpr -> expr GREATER expr .
+
+    VARDEC          reduce using rule 9 (relexpr -> expr GREATER expr .)
+    IDENT           reduce using rule 9 (relexpr -> expr GREATER expr .)
+    PRINT           reduce using rule 9 (relexpr -> expr GREATER expr .)
+    WHILE           reduce using rule 9 (relexpr -> expr GREATER expr .)
+    $end            reduce using rule 9 (relexpr -> expr GREATER expr .)
+    ENDLOOP         reduce using rule 9 (relexpr -> expr GREATER expr .)
+    ENDFUNC         reduce using rule 9 (relexpr -> expr GREATER expr .)
+    DO              reduce using rule 9 (relexpr -> expr GREATER expr .)
+
+
+state 33
+
+    (10) relexpr -> expr LESS expr .
+
+    VARDEC          reduce using rule 10 (relexpr -> expr LESS expr .)
+    IDENT           reduce using rule 10 (relexpr -> expr LESS expr .)
+    PRINT           reduce using rule 10 (relexpr -> expr LESS expr .)
+    WHILE           reduce using rule 10 (relexpr -> expr LESS expr .)
+    $end            reduce using rule 10 (relexpr -> expr LESS expr .)
+    ENDLOOP         reduce using rule 10 (relexpr -> expr LESS expr .)
+    ENDFUNC         reduce using rule 10 (relexpr -> expr LESS expr .)
+    DO              reduce using rule 10 (relexpr -> expr LESS expr .)
+
+
+state 34
+
+    (11) relexpr -> expr EQUALS expr .
+
+    VARDEC          reduce using rule 11 (relexpr -> expr EQUALS expr .)
+    IDENT           reduce using rule 11 (relexpr -> expr EQUALS expr .)
+    PRINT           reduce using rule 11 (relexpr -> expr EQUALS expr .)
+    WHILE           reduce using rule 11 (relexpr -> expr EQUALS expr .)
+    $end            reduce using rule 11 (relexpr -> expr EQUALS expr .)
+    ENDLOOP         reduce using rule 11 (relexpr -> expr EQUALS expr .)
+    ENDFUNC         reduce using rule 11 (relexpr -> expr EQUALS expr .)
+    DO              reduce using rule 11 (relexpr -> expr EQUALS expr .)
+
+
+state 35
+
+    (13) expr -> term PLUS term .
+
+    GREATER         reduce using rule 13 (expr -> term PLUS term .)
+    LESS            reduce using rule 13 (expr -> term PLUS term .)
+    EQUALS          reduce using rule 13 (expr -> term PLUS term .)
+    VARDEC          reduce using rule 13 (expr -> term PLUS term .)
+    IDENT           reduce using rule 13 (expr -> term PLUS term .)
+    PRINT           reduce using rule 13 (expr -> term PLUS term .)
+    WHILE           reduce using rule 13 (expr -> term PLUS term .)
+    $end            reduce using rule 13 (expr -> term PLUS term .)
+    ENDLOOP         reduce using rule 13 (expr -> term PLUS term .)
+    ENDFUNC         reduce using rule 13 (expr -> term PLUS term .)
+    DO              reduce using rule 13 (expr -> term PLUS term .)
+
+
+state 36
+
+    (14) expr -> term MINUS term .
+
+    GREATER         reduce using rule 14 (expr -> term MINUS term .)
+    LESS            reduce using rule 14 (expr -> term MINUS term .)
+    EQUALS          reduce using rule 14 (expr -> term MINUS term .)
+    VARDEC          reduce using rule 14 (expr -> term MINUS term .)
+    IDENT           reduce using rule 14 (expr -> term MINUS term .)
+    PRINT           reduce using rule 14 (expr -> term MINUS term .)
+    WHILE           reduce using rule 14 (expr -> term MINUS term .)
+    $end            reduce using rule 14 (expr -> term MINUS term .)
+    ENDLOOP         reduce using rule 14 (expr -> term MINUS term .)
+    ENDFUNC         reduce using rule 14 (expr -> term MINUS term .)
+    DO              reduce using rule 14 (expr -> term MINUS term .)
+
+
+state 37
+
+    (15) expr -> term OR term .
+
+    GREATER         reduce using rule 15 (expr -> term OR term .)
+    LESS            reduce using rule 15 (expr -> term OR term .)
+    EQUALS          reduce using rule 15 (expr -> term OR term .)
+    VARDEC          reduce using rule 15 (expr -> term OR term .)
+    IDENT           reduce using rule 15 (expr -> term OR term .)
+    PRINT           reduce using rule 15 (expr -> term OR term .)
+    WHILE           reduce using rule 15 (expr -> term OR term .)
+    $end            reduce using rule 15 (expr -> term OR term .)
+    ENDLOOP         reduce using rule 15 (expr -> term OR term .)
+    ENDFUNC         reduce using rule 15 (expr -> term OR term .)
+    DO              reduce using rule 15 (expr -> term OR term .)
+
+
+state 38
+
+    (17) term -> factor MUL factor .
+
+    PLUS            reduce using rule 17 (term -> factor MUL factor .)
+    MINUS           reduce using rule 17 (term -> factor MUL factor .)
+    OR              reduce using rule 17 (term -> factor MUL factor .)
+    GREATER         reduce using rule 17 (term -> factor MUL factor .)
+    LESS            reduce using rule 17 (term -> factor MUL factor .)
+    EQUALS          reduce using rule 17 (term -> factor MUL factor .)
+    VARDEC          reduce using rule 17 (term -> factor MUL factor .)
+    IDENT           reduce using rule 17 (term -> factor MUL factor .)
+    PRINT           reduce using rule 17 (term -> factor MUL factor .)
+    WHILE           reduce using rule 17 (term -> factor MUL factor .)
+    $end            reduce using rule 17 (term -> factor MUL factor .)
+    ENDLOOP         reduce using rule 17 (term -> factor MUL factor .)
+    ENDFUNC         reduce using rule 17 (term -> factor MUL factor .)
+    DO              reduce using rule 17 (term -> factor MUL factor .)
+
+
+state 39
+
+    (18) term -> factor DIV factor .
+
+    PLUS            reduce using rule 18 (term -> factor DIV factor .)
+    MINUS           reduce using rule 18 (term -> factor DIV factor .)
+    OR              reduce using rule 18 (term -> factor DIV factor .)
+    GREATER         reduce using rule 18 (term -> factor DIV factor .)
+    LESS            reduce using rule 18 (term -> factor DIV factor .)
+    EQUALS          reduce using rule 18 (term -> factor DIV factor .)
+    VARDEC          reduce using rule 18 (term -> factor DIV factor .)
+    IDENT           reduce using rule 18 (term -> factor DIV factor .)
+    PRINT           reduce using rule 18 (term -> factor DIV factor .)
+    WHILE           reduce using rule 18 (term -> factor DIV factor .)
+    $end            reduce using rule 18 (term -> factor DIV factor .)
+    ENDLOOP         reduce using rule 18 (term -> factor DIV factor .)
+    ENDFUNC         reduce using rule 18 (term -> factor DIV factor .)
+    DO              reduce using rule 18 (term -> factor DIV factor .)
+
+
+state 40
+
+    (19) term -> factor AND factor .
+
+    PLUS            reduce using rule 19 (term -> factor AND factor .)
+    MINUS           reduce using rule 19 (term -> factor AND factor .)
+    OR              reduce using rule 19 (term -> factor AND factor .)
+    GREATER         reduce using rule 19 (term -> factor AND factor .)
+    LESS            reduce using rule 19 (term -> factor AND factor .)
+    EQUALS          reduce using rule 19 (term -> factor AND factor .)
+    VARDEC          reduce using rule 19 (term -> factor AND factor .)
+    IDENT           reduce using rule 19 (term -> factor AND factor .)
+    PRINT           reduce using rule 19 (term -> factor AND factor .)
+    WHILE           reduce using rule 19 (term -> factor AND factor .)
+    $end            reduce using rule 19 (term -> factor AND factor .)
+    ENDLOOP         reduce using rule 19 (term -> factor AND factor .)
+    ENDFUNC         reduce using rule 19 (term -> factor AND factor .)
+    DO              reduce using rule 19 (term -> factor AND factor .)
+
+
+state 41
+
+    (7) stmt -> WHILE relexpr DO stmts . ENDLOOP
+    (2) stmts -> stmts . stmt
+    (3) stmt -> . VARDEC IDENT
+    (4) stmt -> . IDENT ASSIG relexpr
+    (5) stmt -> . PRINT relexpr
+    (6) stmt -> . VARDEC FUNC IDENT OPENPAR CLOSEPAR ASSIG stmts ENDFUNC
+    (7) stmt -> . WHILE relexpr DO stmts ENDLOOP
+
+    ENDLOOP         shift and go to state 43
+    VARDEC          shift and go to state 3
+    IDENT           shift and go to state 4
+    PRINT           shift and go to state 5
+    WHILE           shift and go to state 6
+
+    stmt                           shift and go to state 7
+
+state 42
+
+    (6) stmt -> VARDEC FUNC IDENT OPENPAR CLOSEPAR . ASSIG stmts ENDFUNC
+
+    ASSIG           shift and go to state 44
+
+
+state 43
+
+    (7) stmt -> WHILE relexpr DO stmts ENDLOOP .
+
+    VARDEC          reduce using rule 7 (stmt -> WHILE relexpr DO stmts ENDLOOP .)
+    IDENT           reduce using rule 7 (stmt -> WHILE relexpr DO stmts ENDLOOP .)
+    PRINT           reduce using rule 7 (stmt -> WHILE relexpr DO stmts ENDLOOP .)
+    WHILE           reduce using rule 7 (stmt -> WHILE relexpr DO stmts ENDLOOP .)
+    $end            reduce using rule 7 (stmt -> WHILE relexpr DO stmts ENDLOOP .)
+    ENDLOOP         reduce using rule 7 (stmt -> WHILE relexpr DO stmts ENDLOOP .)
+    ENDFUNC         reduce using rule 7 (stmt -> WHILE relexpr DO stmts ENDLOOP .)
+
+
+state 44
+
+    (6) stmt -> VARDEC FUNC IDENT OPENPAR CLOSEPAR ASSIG . stmts ENDFUNC
+    (1) stmts -> . stmt
+    (2) stmts -> . stmts stmt
+    (3) stmt -> . VARDEC IDENT
+    (4) stmt -> . IDENT ASSIG relexpr
+    (5) stmt -> . PRINT relexpr
+    (6) stmt -> . VARDEC FUNC IDENT OPENPAR CLOSEPAR ASSIG stmts ENDFUNC
+    (7) stmt -> . WHILE relexpr DO stmts ENDLOOP
+
+    VARDEC          shift and go to state 3
+    IDENT           shift and go to state 4
+    PRINT           shift and go to state 5
+    WHILE           shift and go to state 6
+
+    stmts                          shift and go to state 45
+    stmt                           shift and go to state 2
+
+state 45
+
+    (6) stmt -> VARDEC FUNC IDENT OPENPAR CLOSEPAR ASSIG stmts . ENDFUNC
+    (2) stmts -> stmts . stmt
+    (3) stmt -> . VARDEC IDENT
+    (4) stmt -> . IDENT ASSIG relexpr
+    (5) stmt -> . PRINT relexpr
+    (6) stmt -> . VARDEC FUNC IDENT OPENPAR CLOSEPAR ASSIG stmts ENDFUNC
+    (7) stmt -> . WHILE relexpr DO stmts ENDLOOP
+
+    ENDFUNC         shift and go to state 46
+    VARDEC          shift and go to state 3
+    IDENT           shift and go to state 4
+    PRINT           shift and go to state 5
+    WHILE           shift and go to state 6
+
+    stmt                           shift and go to state 7
+
+state 46
+
+    (6) stmt -> VARDEC FUNC IDENT OPENPAR CLOSEPAR ASSIG stmts ENDFUNC .
+
+    VARDEC          reduce using rule 6 (stmt -> VARDEC FUNC IDENT OPENPAR CLOSEPAR ASSIG stmts ENDFUNC .)
+    IDENT           reduce using rule 6 (stmt -> VARDEC FUNC IDENT OPENPAR CLOSEPAR ASSIG stmts ENDFUNC .)
+    PRINT           reduce using rule 6 (stmt -> VARDEC FUNC IDENT OPENPAR CLOSEPAR ASSIG stmts ENDFUNC .)
+    WHILE           reduce using rule 6 (stmt -> VARDEC FUNC IDENT OPENPAR CLOSEPAR ASSIG stmts ENDFUNC .)
+    $end            reduce using rule 6 (stmt -> VARDEC FUNC IDENT OPENPAR CLOSEPAR ASSIG stmts ENDFUNC .)
+    ENDLOOP         reduce using rule 6 (stmt -> VARDEC FUNC IDENT OPENPAR CLOSEPAR ASSIG stmts ENDFUNC .)
+    ENDFUNC         reduce using rule 6 (stmt -> VARDEC FUNC IDENT OPENPAR CLOSEPAR ASSIG stmts ENDFUNC .)
 

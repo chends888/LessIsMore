@@ -6,9 +6,9 @@ _tabversion = '3.10'
 
 _lr_method = 'LALR'
 
-_lr_signature = 'leftPLUSMINUSleftMULDIVASSIG CLOSEPAR DIV EQUALS GREATER IDENT INT LESS MINUS MUL OPENPAR PLUS PRINT VARDECstatement : VARDEC IDENTstatement : IDENT ASSIG exprstatement : exprexpr : expr PLUS expr\n            | expr MINUS expr\n            | expr DIV expr\n            | expr MUL exprexpr : INT'
+_lr_signature = 'leftPLUSMINUSleftMULDIVAND ASSIG BOOLVAL CLOSEPAR DIV DO ENDFUNC ENDLOOP EQUALS FUNC GREATER IDENT INT LESS MINUS MUL OPENPAR OR PLUS PRINT VARDEC WHILEstmts : stmt\n             | stmts stmtstmt : VARDEC IDENTstmt : IDENT ASSIG relexprstmt : PRINT relexprstmt : VARDEC FUNC IDENT OPENPAR CLOSEPAR ASSIG stmts ENDFUNCstmt : WHILE relexpr DO stmts ENDLOOPrelexpr : expr\n               | expr GREATER expr\n               | expr LESS expr\n               | expr EQUALS exprexpr : term\n            | term PLUS term\n            | term MINUS term\n            | term OR termterm : factor\n            | factor MUL factor\n            | factor DIV factor\n            | factor AND factorfactor : INT\n              | IDENT\n              | BOOLVAL'
     
-_lr_action_items = {'VARDEC':([0,],[2,]),'IDENT':([0,2,],[3,6,]),'INT':([0,7,8,9,10,11,],[5,5,5,5,5,5,]),'$end':([1,4,5,6,12,13,14,15,16,],[0,-3,-8,-1,-2,-4,-5,-6,-7,]),'ASSIG':([3,],[7,]),'PLUS':([4,5,12,13,14,15,16,],[8,-8,8,-4,-5,-6,-7,]),'MINUS':([4,5,12,13,14,15,16,],[9,-8,9,-4,-5,-6,-7,]),'DIV':([4,5,12,13,14,15,16,],[10,-8,10,10,10,-6,-7,]),'MUL':([4,5,12,13,14,15,16,],[11,-8,11,11,11,-6,-7,]),}
+_lr_action_items = {'VARDEC':([0,1,2,7,8,11,12,13,14,15,16,17,20,30,32,33,34,35,36,37,38,39,40,41,43,44,45,46,],[3,3,-1,-2,-3,-5,-8,-12,-16,-20,-21,-22,-4,3,-9,-10,-11,-13,-14,-15,-17,-18,-19,3,-7,3,3,-6,]),'IDENT':([0,1,2,3,5,6,7,8,9,10,11,12,13,14,15,16,17,20,21,22,23,24,25,26,27,28,29,30,32,33,34,35,36,37,38,39,40,41,43,44,45,46,],[4,4,-1,8,16,16,-2,-3,19,16,-5,-8,-12,-16,-20,-21,-22,-4,16,16,16,16,16,16,16,16,16,4,-9,-10,-11,-13,-14,-15,-17,-18,-19,4,-7,4,4,-6,]),'PRINT':([0,1,2,7,8,11,12,13,14,15,16,17,20,30,32,33,34,35,36,37,38,39,40,41,43,44,45,46,],[5,5,-1,-2,-3,-5,-8,-12,-16,-20,-21,-22,-4,5,-9,-10,-11,-13,-14,-15,-17,-18,-19,5,-7,5,5,-6,]),'WHILE':([0,1,2,7,8,11,12,13,14,15,16,17,20,30,32,33,34,35,36,37,38,39,40,41,43,44,45,46,],[6,6,-1,-2,-3,-5,-8,-12,-16,-20,-21,-22,-4,6,-9,-10,-11,-13,-14,-15,-17,-18,-19,6,-7,6,6,-6,]),'$end':([1,2,7,8,11,12,13,14,15,16,17,20,32,33,34,35,36,37,38,39,40,43,46,],[0,-1,-2,-3,-5,-8,-12,-16,-20,-21,-22,-4,-9,-10,-11,-13,-14,-15,-17,-18,-19,-7,-6,]),'ENDLOOP':([2,7,8,11,12,13,14,15,16,17,20,32,33,34,35,36,37,38,39,40,41,43,46,],[-1,-2,-3,-5,-8,-12,-16,-20,-21,-22,-4,-9,-10,-11,-13,-14,-15,-17,-18,-19,43,-7,-6,]),'ENDFUNC':([2,7,8,11,12,13,14,15,16,17,20,32,33,34,35,36,37,38,39,40,43,45,46,],[-1,-2,-3,-5,-8,-12,-16,-20,-21,-22,-4,-9,-10,-11,-13,-14,-15,-17,-18,-19,-7,46,-6,]),'FUNC':([3,],[9,]),'ASSIG':([4,42,],[10,44,]),'INT':([5,6,10,21,22,23,24,25,26,27,28,29,],[15,15,15,15,15,15,15,15,15,15,15,15,]),'BOOLVAL':([5,6,10,21,22,23,24,25,26,27,28,29,],[17,17,17,17,17,17,17,17,17,17,17,17,]),'DO':([12,13,14,15,16,17,18,32,33,34,35,36,37,38,39,40,],[-8,-12,-16,-20,-21,-22,30,-9,-10,-11,-13,-14,-15,-17,-18,-19,]),'GREATER':([12,13,14,15,16,17,35,36,37,38,39,40,],[21,-12,-16,-20,-21,-22,-13,-14,-15,-17,-18,-19,]),'LESS':([12,13,14,15,16,17,35,36,37,38,39,40,],[22,-12,-16,-20,-21,-22,-13,-14,-15,-17,-18,-19,]),'EQUALS':([12,13,14,15,16,17,35,36,37,38,39,40,],[23,-12,-16,-20,-21,-22,-13,-14,-15,-17,-18,-19,]),'PLUS':([13,14,15,16,17,38,39,40,],[24,-16,-20,-21,-22,-17,-18,-19,]),'MINUS':([13,14,15,16,17,38,39,40,],[25,-16,-20,-21,-22,-17,-18,-19,]),'OR':([13,14,15,16,17,38,39,40,],[26,-16,-20,-21,-22,-17,-18,-19,]),'MUL':([14,15,16,17,],[27,-20,-21,-22,]),'DIV':([14,15,16,17,],[28,-20,-21,-22,]),'AND':([14,15,16,17,],[29,-20,-21,-22,]),'OPENPAR':([19,],[31,]),'CLOSEPAR':([31,],[42,]),}
 
 _lr_action = {}
 for _k, _v in _lr_action_items.items():
@@ -17,7 +17,7 @@ for _k, _v in _lr_action_items.items():
       _lr_action[_x][_k] = _y
 del _lr_action_items
 
-_lr_goto_items = {'statement':([0,],[1,]),'expr':([0,7,8,9,10,11,],[4,12,13,14,15,16,]),}
+_lr_goto_items = {'stmts':([0,30,44,],[1,41,45,]),'stmt':([0,1,30,41,44,45,],[2,7,2,7,2,7,]),'relexpr':([5,6,10,],[11,18,20,]),'expr':([5,6,10,21,22,23,],[12,12,12,32,33,34,]),'term':([5,6,10,21,22,23,24,25,26,],[13,13,13,13,13,13,35,36,37,]),'factor':([5,6,10,21,22,23,24,25,26,27,28,29,],[14,14,14,14,14,14,14,14,14,38,39,40,]),}
 
 _lr_goto = {}
 for _k, _v in _lr_goto_items.items():
@@ -26,13 +26,27 @@ for _k, _v in _lr_goto_items.items():
        _lr_goto[_x][_k] = _y
 del _lr_goto_items
 _lr_productions = [
-  ("S' -> statement","S'",1,None,None,None),
-  ('statement -> VARDEC IDENT','statement',2,'p_vardec','lexer_parser.py',66),
-  ('statement -> IDENT ASSIG expr','statement',3,'p_assig','lexer_parser.py',71),
-  ('statement -> expr','statement',1,'p_statement_expr','lexer_parser.py',76),
-  ('expr -> expr PLUS expr','expr',3,'p_binop','lexer_parser.py',81),
-  ('expr -> expr MINUS expr','expr',3,'p_binop','lexer_parser.py',82),
-  ('expr -> expr DIV expr','expr',3,'p_binop','lexer_parser.py',83),
-  ('expr -> expr MUL expr','expr',3,'p_binop','lexer_parser.py',84),
-  ('expr -> INT','expr',1,'p_int','lexer_parser.py',102),
+  ("S' -> stmts","S'",1,None,None,None),
+  ('stmts -> stmt','stmts',1,'p_stmts','lexer_parser.py',116),
+  ('stmts -> stmts stmt','stmts',2,'p_stmts','lexer_parser.py',117),
+  ('stmt -> VARDEC IDENT','stmt',2,'p_vardec','lexer_parser.py',121),
+  ('stmt -> IDENT ASSIG relexpr','stmt',3,'p_assig','lexer_parser.py',126),
+  ('stmt -> PRINT relexpr','stmt',2,'p_print','lexer_parser.py',131),
+  ('stmt -> VARDEC FUNC IDENT OPENPAR CLOSEPAR ASSIG stmts ENDFUNC','stmt',8,'p_funcdec','lexer_parser.py',136),
+  ('stmt -> WHILE relexpr DO stmts ENDLOOP','stmt',5,'p_while','lexer_parser.py',140),
+  ('relexpr -> expr','relexpr',1,'p_relexpr','lexer_parser.py',144),
+  ('relexpr -> expr GREATER expr','relexpr',3,'p_relexpr','lexer_parser.py',145),
+  ('relexpr -> expr LESS expr','relexpr',3,'p_relexpr','lexer_parser.py',146),
+  ('relexpr -> expr EQUALS expr','relexpr',3,'p_relexpr','lexer_parser.py',147),
+  ('expr -> term','expr',1,'p_expr','lexer_parser.py',158),
+  ('expr -> term PLUS term','expr',3,'p_expr','lexer_parser.py',159),
+  ('expr -> term MINUS term','expr',3,'p_expr','lexer_parser.py',160),
+  ('expr -> term OR term','expr',3,'p_expr','lexer_parser.py',161),
+  ('term -> factor','term',1,'p_term','lexer_parser.py',165),
+  ('term -> factor MUL factor','term',3,'p_term','lexer_parser.py',166),
+  ('term -> factor DIV factor','term',3,'p_term','lexer_parser.py',167),
+  ('term -> factor AND factor','term',3,'p_term','lexer_parser.py',168),
+  ('factor -> INT','factor',1,'p_factor','lexer_parser.py',172),
+  ('factor -> IDENT','factor',1,'p_factor','lexer_parser.py',173),
+  ('factor -> BOOLVAL','factor',1,'p_factor','lexer_parser.py',174),
 ]

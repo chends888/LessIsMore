@@ -19,28 +19,74 @@ tokens = (
     'EQUALS',
     'OPENPAR',
     'CLOSEPAR',
-    'IDENT'
+    'IDENT',
+    'FUNC',
+    'ENDFUNC',
+    'BOOLVAL',
+    'WHILE',
+    'ENDLOOP',
+    'DO',
+    'OR',
+    'AND'
 )
 
 
-t_INT = '\d+'
-t_PLUS = '[+]'
-t_MINUS = '[-]'
-t_DIV = '[/]'
-t_MUL = '[*]'
-t_ASSIG = '= '
-t_VARDEC = 'int | bool '
-# t_BOOL = 'bool '
-t_PRINT = 'print '
-t_GREATER = 'greater'
-t_LESS = 'less'
-t_EQUALS = 'equals'
+t_INT = r'\d+'
+t_PLUS = r'[+]'
+t_MINUS = r'[-]'
+t_DIV = r'[/]'
+t_MUL = r'[*]'
 t_OPENPAR = r'\('
 t_CLOSEPAR = r'\)'
-t_IDENT = '[a-zA-Z]+'
+t_IDENT = r'[a-zA-Z_][a-zA-Z0-9_]*'
 
 
-t_ignore = ' \s+'
+def t_VARDEC(t):
+    r'int |bool '
+    return t
+def t_PRINT(t):
+    r'print '
+    return t
+def t_GREATER(t):
+    r'greater '
+    return t
+def t_LESS(t):
+    r'less '
+    return t
+def t_EQUALS(t):
+    r'equals '
+    return t
+def t_ASSIG(t):
+    r'is '
+    return t
+def t_FUNC(t):
+    r'func '
+    return t
+def t_ENDFUNC(t):
+    r'endfunc'
+    return t
+def t_BOOLVAL(t):
+    r'true|false'
+    return t
+def t_WHILE(t):
+    r'while '
+    return t
+def t_ENDLOOP(t):
+    r'endloop'
+    return t
+def t_DO(t):
+    r'do'
+    return t
+def t_OR(t):
+    r'or '
+    return t
+def t_AMD(t):
+    r'and '
+    return t
+
+
+
+t_ignore = " \t"
 # t_ignore = '\n+'
 def t_newline(t):
     r'\n+'
@@ -51,7 +97,7 @@ def t_error(t):
     t.lexer.skip(1)
 
 
-lex.lex()
+lexer = lex.lex()
 
 
 precedence = (
@@ -59,63 +105,113 @@ precedence = (
     ('left','MUL','DIV')
 )
 
-variables = {}
+# variables = {}
 
+
+# def p_program(t):
+#     'program : stmts'
+#     t[0] = t[1]
+
+def p_stmts(t):
+    '''stmts : stmt
+             | stmts stmt'''
+    # print('stmts')
 
 def p_vardec(t):
-    'statement : VARDEC IDENT'
-    print(t[1])
-    variables[t[2]] = None
+    'stmt : VARDEC IDENT'
+    print('vardec', t[1], t[2])
+    # variables[t[2]] = None
 
 def p_assig(t):
-    'statement : IDENT ASSIG expr'
-    print(t[1])
-    variables[t[1]] = t[3]
+    'stmt : IDENT ASSIG relexpr'
+    print('assig', t[1])
+    # variables[t[1]] = t[3]
 
-def p_statement_expr(t):
-    'statement : expr'
-    print(t[1])
+def p_print(t):
+    'stmt : PRINT relexpr'
+    print('print')
+    # variables[t[1]] = t[3]
+
+def p_funcdec(t):
+    'stmt : VARDEC FUNC IDENT OPENPAR CLOSEPAR ASSIG stmts ENDFUNC'
+    print('funcdec', t[3])
+
+def p_while(t):
+    'stmt : WHILE relexpr DO stmts ENDLOOP'
+    print('whileloop')
+
+def p_relexpr(t):
+    '''relexpr : expr
+               | expr GREATER expr
+               | expr LESS expr
+               | expr EQUALS expr'''
+    print('relexpr')
 
 
-def p_binop(t):
-    '''expr : expr PLUS expr
-            | expr MINUS expr
-            | expr DIV expr
-            | expr MUL expr'''
+# def p_binop(t):
+#     '''expr : expr PLUS expr
+#             | expr MINUS expr
+#             | expr DIV expr
+#             | expr MUL expr'''
 
-    # https://stackoverflow.com/questions/18591778/how-to-pass-an-operator-to-a-python-function
-    allowed_operators = {
-        "+": operator.add,
-        "-": operator.sub,
-        "*": operator.mul,
-        "//": operator.floordiv,
-        "EQUALS": operator.eq,
-        "GREATER": operator.gt,
-        "LESS": operator.lt,
-        "OR": operator.or_,
-        "AND": operator.and_
-    }
+def p_expr(t):
+    '''expr : term
+            | term PLUS term
+            | term MINUS term
+            | term OR term'''
+    print('expr')
 
-    t[0] = allowed_operators[t[2]](t[1], t[3])
+def p_term(t):
+    '''term : factor
+            | factor MUL factor
+            | factor DIV factor
+            | factor AND factor'''
+    print('term')
 
-def p_int(t):
-    'expr : INT'
-    t[0] = t[1]
+def p_factor(t):
+    '''factor : INT
+              | IDENT
+              | BOOLVAL'''
 
-# def p_expression_name(t):
-#     'expr : IDENT'
-#     try:
-#         t[0] = variables[t[1]]
-#     except LookupError:
-#         print("Undefined name '%s'" % t[1])
-#         t[0] = 0
-
-# def p_error(t):
-#     print("Syntax error at '%s'" % t.value)
 
 parser = yacc.yacc()
 
 parser.parse(
-    '''int x
-    s is 2''')
+     '''bool flag
+        int x
+        
+        flag is true
+        x is 5
 
+        int func Sum() is
+        print x
+        endfunc
+        
+        while x greater 0 do
+        print x
+        endloop
+        
+        x is 5''')
+
+
+# lexer.input('''bool flag
+#         int x
+        
+#         flag is true
+#         x is 5
+
+#         int func Sum() is
+#         print x
+#         endfunc
+        
+#         while x greater 0 do
+#         print x
+#         endloop
+        
+#         x is 5''')
+
+# while True:
+#     token = lexer.token()
+#     if not token:
+#         break
+#     print(token)

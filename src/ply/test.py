@@ -58,6 +58,7 @@ precedence = (
 names = { }
 
 def p_statement_assign(t):
+    'statement : NAME EQUALS expression'
     names[t[1]] = t[3]
 
 def p_statement_expr(t):
