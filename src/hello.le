@@ -1,21 +1,36 @@
+int func Sum(int a, int b) is
+    int c
+    c is a + b
+    Sum is c
+endfunc
+
+int func Subtract(int a, int b) is
+    int c
+    c is a - b
+    Subtract is c
+endfunc
+
+
 int x
 int y
 bool w
 bool q
-x is 1
-y is 2
+
+x is 0
+y is 0
 w is true
-q is false
+q is true
 w is w and q
+
 int z
 
 z is x + y
 print z
-
+y is 1
 if z greater y then
-    print 1
-else
     print 0
+else
+    print 1
 endif
 
 if z less y then
@@ -38,26 +53,21 @@ else
     print 0
 endif
 
+z is 5
 while z greater 0 do
     print z
     z is z-1
 endloop
 print z
 
-int func Sum(int x, int y) is
-    int a
-    a is x + y
-    Sum is a
-endfunc
 
-int func Subtract(int x, int y) is
-    int a
-    a is x - y
-    Subtract is a
-endfunc
-
-z is Sum(1,1)
+z is Sum(0,y)
+'z is 1
+'z is -z
 print z
 
-z is Subtract(2,5)
+z is Subtract(z,1)
+print z
+
+z is -1/2
 print z

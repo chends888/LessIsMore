@@ -48,11 +48,12 @@ class BinOp (Node):
         }
         child1 = self.children[0].Evaluate(st)
         child2 = self.children[1].Evaluate(st)
+        # print(child1, self.children[1].Evaluate(st))
         child2val = child2[0]
         child2type = child2[1]
-        if (child1[1] == 'INTEGER' and child2type == 'INTEGER' and self.value in ['+', '-', '*', '//']):
+        if ((child1[1] == 'INTEGER' or child1[1] == 'INT') and (child2type == 'INTEGER' or child2type == 'INT') and self.value in ['+', '-', '*', '//']):
             return [allowed_operators[self.value](child1[0], child2val), 'INTEGER']
-        elif (child1[1] == 'INTEGER' and child2type == 'INTEGER' and self.value in ['EQUALS', 'GREATER', 'LESS']):
+        elif ((child1[1] == 'INTEGER' or child1[1] == 'INT') and (child2type == 'INTEGER' or child2type == 'INT') and self.value in ['EQUALS', 'GREATER', 'LESS']):
             return [allowed_operators[self.value](child1[0], child2val), 'BOOLEAN']
         elif (child1[1] == 'BOOLEAN' and child2type == 'BOOLEAN' and self.value in ['OR', 'AND', '=']):
             return [allowed_operators[self.value](child1[0], child2val), 'BOOLEAN']
@@ -120,7 +121,7 @@ class Assignment(Node):
         # print('st:', st.symtabledict)
         if (child2type == 'BOOLEAN' and child2val in [False, True]):
             st.setter(child1.value, child2val, child2type)
-        elif (child2type == 'INTEGER' and isinstance(child2val, int)):
+        elif ((child2type == 'INTEGER' or child2type == 'INT') and isinstance(child2val, int)):
             st.setter(child1.value, child2val, child2type)
         else:
             raise ValueError('Operand value "%s" does not match type "%s"' %(child2val, child2type))
@@ -128,7 +129,7 @@ class Assignment(Node):
 
 class Print(Node):
     def Evaluate(self, st):
-        # print('print:', self.children[1].Evaluate(st))
+        # print('print:', self.children[0])
         print(self.children[0].Evaluate(st)[0])
 
 class While(Node):
@@ -221,10 +222,11 @@ class SymbolTable:
         self.symtabledict = ancestor
         # self.ancestor = ancestor
     def getter(self, identifier):
+        # print(self.symtabledict)
         if (identifier in self.symtabledict):
             return self.symtabledict[identifier]
-        elif (self.ancestor != None):
-            return self.ancestor.getter(identifier)
+        # elif (self.ancestor != None):
+        #     return self.ancestor.getter(identifier)
         raise ValueError('Variable "%s" not defined' %(identifier))
     def setter(self, identifier, value, vartype):
         self.symtabledict[identifier] = [value, vartype]
@@ -358,7 +360,7 @@ class Parser:
             if (Parser.tokens.actual.tokenvalue != '('):
                 return Identifier(token1.tokenvalue)
 
-            print('identttttttttttttttttttt')
+            # print('identttttttttttttttttttt')
             # print('funcsubcall', token1.tokenvalue)
             funcsubcall = FuncSubCall(token1.tokenvalue, [])
             # Parser.tokens.selectNext()
@@ -424,7 +426,7 @@ class Parser:
     
     @staticmethod
     def functionDeclaration(funcvartype):
-        print('funcdec')
+        # print('funcdec')
         funcargs = [VarDec('VARDEC', [])]
         funcstmts = Statements('STATEMENTS', [])
         if (Parser.tokens.actual.tokenvalue == 'FUNC'):
@@ -436,11 +438,11 @@ class Parser:
                 if (Parser.tokens.actual.tokenvalue != ')'):
                     while True:
                         argtype = Parser.varType()
-                        print(Parser.tokens.actual.tokenvalue)
+                        # print(Parser.tokens.actual.tokenvalue)
                         argident = Parser.tokens.actual.tokenvalue
                         Parser.tokens.selectNext()
-                        print('argident:', argident)
-                        print('argtype:', argtype)
+                        # print('argident:', argident)
+                        # print('argtype:', argtype)
                         funcargs.append(VarDec('VARDEC', [argident, argtype]))
                             # Parser.tokens.selectNext()
                         if (Parser.tokens.actual.tokenvalue == ','):

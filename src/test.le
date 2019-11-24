@@ -1,0 +1,15 @@
+int func Sum(int a, int b) is
+    int c
+    c is a + b
+    Sum is c
+endfunc
+
+
+int y
+int z
+
+y is 1
+
+print y
+z is 1
+z is Sum(5,y)
