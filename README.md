@@ -37,6 +37,6 @@ factor = int | ident | "true" | "false" | "+", factor | "-", factor | "(", relex
 
 
 
-ident = {a-zA-Z_}{a-zA-Z0-9_} ;
+ident = {a-zA-Z}{a-zA-Z} ;
 
 int = {("-2⁶³" | ... | "2⁶³")} ;
